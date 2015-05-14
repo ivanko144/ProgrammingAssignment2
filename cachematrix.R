@@ -1,49 +1,47 @@
-## Put comments here that give an overall description of what your
-## functions do
 
-## Write a short comment describing this function
+## This function creates a special "matrix" object that can cache its inverse.
+# variable x must be square matrix  # x1 <- (matrix(c(1,2,3, 11,12,13, 1,2,1), nrow = 3, ncol = 3, byrow = TRUE))
+#                                   # x2 <- (matrix(c(1,1,3, 11,12,13, 1,2,2), nrow = 3, ncol = 3, byrow = TRUE))
+#
+# aa <- makeCacheMatrix(x1)   # returns special "matrix" object wich consist of four function;  x1 - square matrix
+# aa$get()                    # 1. returns original matrix (from cache or from memory); no arguments 
+# aa$set(x2)                  # 2. updates (sets) cached value of original matrix and clears cache of inverced matrix; x2 - new square matrix
+# aa$setinverse()             # 3. caches inversed matrix; no arguments
+# aa$getinverse()             # 4. gets cached inversed matrix; returns NULL before first using of setinverce(); no arguments
+
 
 makeCacheMatrix <- function(x = matrix()) {
 
-# variable x must be square matrix  # x1 <- (matrix(c(1,2,3, 11,12,13, 1,2,1), nrow = 3, ncol = 3, byrow = TRUE))
-#>                                  # x2 <- (matrix(c(1,1,3, 11,12,13, 1,2,2), nrow = 3, ncol = 3, byrow = TRUE))
-#
-# aa <- makeCacheMatrix(x1)   # return special "matrix" object wich consist of four function
-# aa$get()                    # return original matrix (from cache or from memory)
-# aa$set(x2)                  # update (set) cached value of original matrix; x2 - new square matrix
-# aa$setinverse()             # cache inversed matrix
-# aa$getinverse()             # get cached  matrix from special "matrix" object; return NULL before first using setinverce()
-
   m <- NULL
-  set <- function(y) {                       # update (set) cached value of x matrix
+  set <- function(y) {                       # updates (set) cached value of x matrix and clears cache of inverced matrix
     x <<- y
-    m <<- NULL
+    m <<- NULL                               # clear cache of inverced matrix
   }
-  get <- function() x                        # get x matrix (from cache or from memory)
-  setinverse <- function() m <<- solve(x)    # update cached value of inverced matrix
-  getinverse <- function() m                 # get cached inverced matrix
-  list(set = set, get = get,                 # return special "matrix" object
+  get <- function() x                        # gets x matrix (from cache or from memory)
+  setinverse <- function() m <<- solve(x)    # updates cached value of inverced matrix
+  getinverse <- function() m                 # gets cached inverced matrix
+  list(set = set, get = get,                 # returns special "matrix" object wich consist of four function
        setinverse = setinverse,
        getinverse = getinverse)
 }
 
 
-## Write a short comment describing this function
+## This function computes the inverse of the special "matrix" returned by makeCacheMatrix
+#  If the inverse has already been calculated (and the matrix has not changed), then cacheSolve should retrieve the inverse from the cache.
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
- m <- x$getinverse() 
-    data <- x$get()
+# aa <- makeCacheMatrix(x1)   # returns special "matrix" object wich consist of four function;  x1 - square matrix
+# cacheSolve(aa)              # returns matrix wich is inverced x1 matrix
+
+cacheSolve <- function(x) {
+    m <- x$getinverse()                        # get cashed data from "special" matrix object
     
-  if(!is.null(m) & identical(data, ...)) {
+  if(!is.null(m)) {                            # cache contains inverced matrix
     message("getting cached data")
     return(m)
   }
-  else {
-    message("computing inverced data")
-    m <- (...)
-    x$set(m)                # update special "matrix" object
-    x$setinverse()          # update cache
+  else {                                       # cache is empty
+    message("computing inverced matrix")
+    x$setinverse()          # update cache with new inverced matrix
     return(x$getinverse())  
   }
   
