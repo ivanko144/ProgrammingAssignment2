@@ -9,8 +9,8 @@ makeCacheMatrix <- function(x = matrix()) {
 #>                                  # x2 <- (matrix(c(1,1,3, 11,12,13, 1,2,2), nrow = 3, ncol = 3, byrow = TRUE))
 #
 # aa <- makeCacheMatrix(x1)   # return special "matrix" object wich consist of four function
-# aa$get()                    # return original matrix (fgrom cache or from memory)
-# aa$set(x2)                  # update (set) cached value of original matrix; ff - new square matrix
+# aa$get()                    # return original matrix (from cache or from memory)
+# aa$set(x2)                  # update (set) cached value of original matrix; x2 - new square matrix
 # aa$setinverse()             # cache inversed matrix
 # aa$getinverse()             # get cached  matrix from special "matrix" object; return NULL before first using setinverce()
 
@@ -32,4 +32,20 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
+ m <- x$getinverse() 
+    data <- x$get()
+    
+  if(!is.null(m) & identical(data, ...)) {
+    message("getting cached data")
+    return(m)
+  }
+  else {
+    message("computing inverced data")
+    m <- (...)
+    x$set(m)                # update special "matrix" object
+    x$setinverse()          # update cache
+    return(x$getinverse())  
+  }
+  
+
 }
