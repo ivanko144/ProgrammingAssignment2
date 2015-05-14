@@ -1,5 +1,5 @@
 
-## This function creates a special "matrix" object that can cache its inverse.
+## makeCacheMatrix function creates a special "matrix" object that can cache its inverse.
 # variable x must be square matrix  # x1 <- (matrix(c(1,2,3, 11,12,13, 1,2,1), nrow = 3, ncol = 3, byrow = TRUE))
 #                                   # x2 <- (matrix(c(1,1,3, 11,12,13, 1,2,2), nrow = 3, ncol = 3, byrow = TRUE))
 #
@@ -26,7 +26,7 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## This function computes the inverse of the special "matrix" returned by makeCacheMatrix
+## cacheSolve function computes the inverse of the special "matrix" returned by makeCacheMatrix
 #  If the inverse has already been calculated (and the matrix has not changed), then cacheSolve should retrieve the inverse from the cache.
 
 # aa <- makeCacheMatrix(x1)   # returns special "matrix" object wich consist of four function;  x1 - square matrix
