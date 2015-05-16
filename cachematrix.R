@@ -8,7 +8,7 @@
 # aa$set(x2)                  # 2. updates (sets) cached value of original matrix and clears cache of inverced matrix; x2 - new square matrix
 # aa$setinverse()             # 3. caches inversed matrix; no arguments
 # aa$getinverse()             # 4. gets cached inversed matrix; returns NULL before first using of setinverce(); no arguments
-
+#
 
 makeCacheMatrix <- function(x = matrix()) {
 
@@ -28,12 +28,13 @@ makeCacheMatrix <- function(x = matrix()) {
 
 ## cacheSolve function computes the inverse of the special "matrix" returned by makeCacheMatrix
 #  If the inverse has already been calculated (and the matrix has not changed), then cacheSolve should retrieve the inverse from the cache.
-
-# aa <- makeCacheMatrix(x1)   # returns special "matrix" object wich consist of four function;  x1 - square matrix
-# cacheSolve(aa)              # returns matrix wich is inverced x1 matrix
+#
+# aa <- makeCacheMatrix(x1)   # returns special "matrix" object which consist of four function;  x1 - square matrix
+# cacheSolve(aa)              # returns matrix which is inverced x1 matrix
+#
 
 cacheSolve <- function(x) {
-    m <- x$getinverse()                        # get cashed data from "special" matrix object
+    m <- x$getinverse()                        # get cashed data (inverced matrix) from "special" matrix object
     
   if(!is.null(m)) {                            # cache contains inverced matrix
     message("getting cached data")
