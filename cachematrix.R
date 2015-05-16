@@ -45,6 +45,4 @@ cacheSolve <- function(x) {
     x$setinverse()          # update cache with new inverced matrix
     return(x$getinverse())  
   }
-  
-
 }
